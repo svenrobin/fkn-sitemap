@@ -132,7 +132,10 @@ var KeystoneSitemap = function(keystone, req, res) {
 							//only define lastModDate if the model has a property tracking when it was last updated
 							var lastModDate = v.updatedAt ? v.updatedAt.format(dateFormatString) : null;
 							//define page url that will get user access to list item v
-							var pageUrl = paths.join('/').replace(dynamicParam, encodeURIComponent(v.name));
+							var re = new RegExp(' ', 'g'),
+								str = v.name;
+							str = str.replace(re, '-');
+							var pageUrl = paths.join('/').replace(dynamicParam, encodeURIComponent(str).toLowerCase());
 							map[pageUrl] = ['get'];
 							route[pageUrl] = {
 								lastmod: lastModDate
