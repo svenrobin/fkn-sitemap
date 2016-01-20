@@ -135,7 +135,7 @@ var KeystoneSitemap = function(keystone, req, res) {
 							var re = new RegExp(' ', 'g'),
 								str = v.name;
 
-							if(typeof str !== 'undefined') {
+							if(typeof str !== 'undefined' && paths.length > 0) {
 								str = str.replace(re, '-');
 								var pageUrl = paths.join('/').replace(dynamicParam, encodeURIComponent(str).toLowerCase());
 								
