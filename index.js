@@ -134,12 +134,17 @@ var KeystoneSitemap = function(keystone, req, res) {
 							//define page url that will get user access to list item v
 							var re = new RegExp(' ', 'g'),
 								str = v.name;
-							str = str.replace(re, '-');
-							var pageUrl = paths.join('/').replace(dynamicParam, encodeURIComponent(str).toLowerCase());
-							map[pageUrl] = ['get'];
-							route[pageUrl] = {
-								lastmod: lastModDate
-							};
+
+							if(typeof str !== 'undefined') {
+								str = str.replace(re, '-');
+								var pageUrl = paths.join('/').replace(dynamicParam, encodeURIComponent(str).toLowerCase());
+								
+								pageUrl = pageUrl.replace(':company', v._id);
+								map[pageUrl] = ['get'];
+								route[pageUrl] = {
+									lastmod: lastModDate
+								};
+							}
 						}
 					});
 				}
