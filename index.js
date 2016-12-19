@@ -2,7 +2,7 @@ var sitemap = require('express-sitemap'),
 	dateFormat = require('date-format-lite'),
 	_ = require('underscore'),
 	async = require('async');
-	
+
 
 var KeystoneSitemap = function(keystone, req, res) {
 	// store routes for express-sitemap function method map option
@@ -35,8 +35,19 @@ var KeystoneSitemap = function(keystone, req, res) {
 		}
 	};
 
+	var slugify = function(text) {
+	    return text.toLowerCase()
+	    .replace(/\s+/g, '-')
+		.replace(/[åÅäÄ]/g, 'a')
+		.replace(/[öÖ]/g, 'o')    // Replace spaces with -
+	    .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+	    .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+	    .replace(/^-+/, '')             // Trim - from start of text
+	    .replace(/-+$/, '');            // Trim - from end of text
+	};
+
 	/**
-	 * Loop through declared routes to determine which are static and which are tied to dynamic database values (routes with :_id or other similar parameters) 
+	 * Loop through declared routes to determine which are static and which are tied to dynamic database values (routes with :_id or other similar parameters)
 	 * Called by create function
 	 */
 	var parseRoutes = function() {
@@ -44,7 +55,7 @@ var KeystoneSitemap = function(keystone, req, res) {
 		// keystone projects using express 4.x.x store routes in keystone.app._router.stack
 		// keystone projects using express 3.x.x store routes in keystone.app.routes.get
 		var routes = keystone.app._router.stack || keystone.app.routes.get;
-		
+
 		if (routes && routes.length > 0) {
 			routes.forEach(function(v, i) {
 				// express 4.x.x route objects have path property
@@ -132,14 +143,17 @@ var KeystoneSitemap = function(keystone, req, res) {
 							//only define lastModDate if the model has a property tracking when it was last updated
 							var lastModDate = v.updatedAt ? v.updatedAt.format(dateFormatString) : null;
 							//define page url that will get user access to list item v
-							var re = new RegExp(' ', 'g'),
-								str = v.name;
-
-							if(typeof str !== 'undefined' && paths.length > 0) {
-								str = str.replace(re, '-');
-								var pageUrl = paths.join('/').replace(dynamicParam, encodeURIComponent(str).toLowerCase());
-								
+							//var re = new RegExp(' ', 'g')
+								//str = v._id;
+							if(/*typeof str !== 'undefined' && */paths.length > 0) {
+								//str = str.toString().replace(re, '-');
+								// console.log(paths.join('/').toLowerCase());
+								var pageUrl = paths.join('/').toLowerCase();/*.replace(dynamicParam, encodeURIComponent(str)*/
+								//console.log(v);
 								pageUrl = pageUrl.replace(':company', v._id);
+								if(typeof v.city !== 'undefined') pageUrl = pageUrl.replace(':city', slugify(v.city));
+								if(typeof v.name !== 'undefined') pageUrl = pageUrl.replace(':companies', slugify(v.name));
+								if(typeof v.street !== 'undefined') pageUrl = pageUrl.replace(':nonsense', slugify(v.street));
 								map[pageUrl] = ['get'];
 								route[pageUrl] = {
 									lastmod: lastModDate
