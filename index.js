@@ -154,6 +154,7 @@ var KeystoneSitemap = function(keystone, req, res) {
 								if(typeof v.city !== 'undefined') pageUrl = pageUrl.replace(':city', slugify(v.city));
 								if(typeof v.name !== 'undefined') pageUrl = pageUrl.replace(':companies', slugify(v.name));
 								if(typeof v.street !== 'undefined') pageUrl = pageUrl.replace(':nonsense', slugify(v.street));
+								if(typeof v.slug !== 'undefined') pageUrl = pageUrl.replace(':post', slugify(v.slug));
 								map[pageUrl] = ['get'];
 								route[pageUrl] = {
 									lastmod: lastModDate
