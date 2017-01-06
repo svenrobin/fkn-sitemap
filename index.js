@@ -2,7 +2,7 @@ var sitemap = require('express-sitemap'),
 	dateFormat = require('date-format-lite'),
 	_ = require('underscore'),
 	async = require('async');
-
+ 
 
 var KeystoneSitemap = function(keystone, req, res) {
 	// store routes for express-sitemap function method map option
