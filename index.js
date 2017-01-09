@@ -192,7 +192,7 @@ var KeystoneSitemap = function(keystone, req, res) {
 		    map: map,
 		    route: route,
 		    url: host,
-		    http: req.protocol
+		    http: 'https'
 		}).XMLtoWeb(res);
 	};
 
