@@ -130,7 +130,7 @@ var KeystoneSitemap = function(keystone, req, res) {
 			//check what property of the list object is being used as the URL identifier, based on keystone model settings
 			var idParam = list.options.autokey && list.options.autokey.path ? list.options.autokey.path : '_id';
 
-			list.model.find().exec(function(err, results) {
+			list.model.find().populate('trainingTypes').exec(function(err, results) {
 				if (results && results.length > 0) {
 					results.forEach(function(v,i) {
 						var include = true;
@@ -153,6 +153,7 @@ var KeystoneSitemap = function(keystone, req, res) {
 								pageUrl = pageUrl.replace(':company', v._id);
 								if(typeof v.city !== 'undefined') pageUrl = pageUrl.replace(':city', slugify(v.city));
 								if(typeof v.name !== 'undefined') pageUrl = pageUrl.replace(':companies', slugify(v.name));
+								if(typeof v.name !== 'undefined') pageUrl = pageUrl.replace(':trainingType', v.trainingTypes.key);
 								if(typeof v.street !== 'undefined') pageUrl = pageUrl.replace(':nonsense', slugify(v.street));
 								if(typeof v.slug !== 'undefined') pageUrl = pageUrl.replace(':post', slugify(v.slug));
 								map[pageUrl] = ['get'];
