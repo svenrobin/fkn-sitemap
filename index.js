@@ -152,8 +152,8 @@ var KeystoneSitemap = function(keystone, req, res) {
 								//console.log(v);
 								pageUrl = pageUrl.replace(':company', v._id);
 								if(typeof v.city !== 'undefined') pageUrl = pageUrl.replace(':city', slugify(v.city));
-								if(typeof v.name !== 'undefined') pageUrl = pageUrl.replace(':companies', slugify(v.name));
-								if(typeof v.name !== 'undefined') pageUrl = pageUrl.replace(':trainingtype', v.trainingTypes.key);
+								if(typeof v.name !== 'undefined') pageUrl = pageUrl.replace(':companies', slugify(v.name));								if(v.trainingTypes !== null && typeof v.trainingTypes !== 'undefined') pageUrl = pageUrl.replace(':trainingtype', v.trainingTypes.key);
+								if(v.trainingTypes !== null && typeof v.trainingTypes !== 'undefined') pageUrl = pageUrl.replace(':trainingtype', v.trainingTypes.key);
 								if(typeof v.street !== 'undefined') pageUrl = pageUrl.replace(':nonsense', slugify(v.street));
 								if(typeof v.slug !== 'undefined') pageUrl = pageUrl.replace(':post', slugify(v.slug));
 								map[pageUrl] = ['get'];
