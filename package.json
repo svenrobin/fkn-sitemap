@@ -1,6 +1,6 @@
 {
   "name": "keystone-express-sitemap.extra",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "fkn-sitemap",
   "main": "index.js",
   "scripts": {
